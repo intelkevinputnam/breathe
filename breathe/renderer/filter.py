@@ -591,6 +591,9 @@ class FilterFactory:
         if 'members' in filter_options:
             filter_options['members'] = ''
 
+        if 'description-only' in filter_options:
+            return (self._create_description_filter(True, 'compounddef', options))
+
         node = Node()
         grandparent = Ancestor(2)
         has_grandparent = HasAncestorFilter(2)
