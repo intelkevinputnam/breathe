@@ -8,6 +8,8 @@ import getopt
 from xml.dom import minidom
 from xml.dom import Node
 
+import breathe.common
+
 from .. import filetypes
 #
 # User methods
@@ -2060,6 +2062,8 @@ class linkedTextType(GeneratedsSuper):
                 MixedContainer.TypeNone, 'ref', childobj_)
             self.content_.append(obj_)
         elif child_.nodeType == Node.TEXT_NODE:
+            for k,v in breathe.common.sphinx_app.config.breathe_pound_defines.items():
+                child_.nodeValue = child_.nodeValue.replace(k,v)
             obj_ = self.mixedclass_(MixedContainer.CategoryText,
                 MixedContainer.TypeNone, '', child_.nodeValue)
             self.content_.append(obj_)

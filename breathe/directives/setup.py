@@ -93,6 +93,7 @@ def setup(app: Sphinx) -> None:
     app.add_config_value("breathe_order_parameters_first", False, "env")
     app.add_config_value("breathe_separate_member_pages", False, "env")
     app.add_config_value("breathe_detaileddesc_pullup_types", {}, True)
+    app.add_config_value("breathe_pound_defines", {}, True) # allows us to alter or remove them before they cause parsing problems
 
     breathe_css = "breathe.css"
     if os.path.exists(os.path.join(app.confdir, "_static", breathe_css)):
