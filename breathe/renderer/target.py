@@ -5,6 +5,7 @@ from docutils.nodes import Element
 
 from typing import Any, Dict, List, Sequence
 
+import re
 
 class TargetHandler:
     def create_target(self, refid: str) -> Sequence[Element]:
@@ -18,6 +19,9 @@ class _RealTargetHandler(TargetHandler):
 
     def create_target(self, refid: str) -> List[Element]:
         """Creates a target node and registers it with the document and returns it in a list"""
+
+        while self.document.has_name(refid):
+            refid = refid + "-1"
 
         target = nodes.target(ids=[refid], names=[refid])
         try:
