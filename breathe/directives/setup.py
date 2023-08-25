@@ -7,6 +7,7 @@ from breathe.directives.content_block import (
     DoxygenNamespaceDirective,
     DoxygenGroupDirective,
     DoxygenPageDirective,
+    DoxygenExampleDirective,
 )
 from breathe.directives.file import DoxygenFileDirective, AutoDoxygenFileDirective
 from breathe.directives.function import DoxygenFunctionDirective
@@ -50,6 +51,7 @@ def setup(app: Sphinx) -> None:
         "doxygenfile": DoxygenFileDirective,
         "autodoxygenfile": AutoDoxygenFileDirective,
         "doxygenpage": DoxygenPageDirective,
+        "doxygenexample": DoxygenExampleDirective,
     }
 
     # The directives need these global objects, so in order to smuggle

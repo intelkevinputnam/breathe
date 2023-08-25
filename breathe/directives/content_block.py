@@ -59,22 +59,23 @@ class _DoxygenContentBlockDirective(BaseDirective):
             warning = self.create_warning(project_info, name=name, kind=self.kind)
             return warning.warn('doxygen{kind}: Cannot find {kind} "{name}" {tail}')
 
-        if "content-only" in self.options and self.kind != "page":
-            # Unpack the single entry in the matches list
-            (node_stack,) = matches
+        if "content-only" in self.options:
+            if self.kind != "page" and self.kind != "example":
+                # Unpack the single entry in the matches list
+                (node_stack,) = matches
 
-            filter_ = self.filter_factory.create_content_filter(self.kind, self.options)
-            # Having found the compound node for the namespace or group in the index we want to grab
-            # the contents of it which match the filter
-            contents_finder = self.finder_factory.create_finder_from_root(
-                node_stack[0], project_info
-            )
-            # TODO: find a more specific type for the Doxygen nodes
-            contents: List[Any] = []
-            contents_finder.filter_(filter_, contents)
+                filter_ = self.filter_factory.create_content_filter(self.kind, self.options)
+                # Having found the compound node for the namespace or group in the index we want to grab
+                # the contents of it which match the filter
+                contents_finder = self.finder_factory.create_finder_from_root(
+                    node_stack[0], project_info
+                )
+                # TODO: find a more specific type for the Doxygen nodes
+                contents: List[Any] = []
+                contents_finder.filter_(filter_, contents)
 
-            # Replaces matches with our new starting points
-            matches = contents
+                # Replaces matches with our new starting points
+                matches = contents
 
         target_handler = create_target_handler(self.options, project_info, self.state.document)
         filter_ = self.filter_factory.create_render_filter(self.kind, self.options)
@@ -111,6 +112,14 @@ class DoxygenGroupDirective(_DoxygenContentBlockDirective):
 
 class DoxygenPageDirective(_DoxygenContentBlockDirective):
     kind = "page"
+    option_spec = {
+        "path": unchanged_required,
+        "project": unchanged_required,
+        "content-only": flag,
+    }
+
+class DoxygenExampleDirective(_DoxygenContentBlockDirective):
+    kind = "example"
     option_spec = {
         "path": unchanged_required,
         "project": unchanged_required,

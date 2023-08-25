@@ -1483,6 +1483,8 @@ class SphinxRenderer:
 
         if self.context and self.context.directive_args[0] == "doxygenpage":
             nodelist.extend(self.render_iterable(node.ordered_children))
+        elif self.context and self.context.directive_args[0] == "doxygenexample":
+            nodelist.extend(self.render_iterable(node.ordered_children))
         else:
             contentNodeCands = self.render_iterable(node.content)
             # if there are consecutive nodes.Text we should collapse them
