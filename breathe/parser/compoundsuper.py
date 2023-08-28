@@ -1648,6 +1648,7 @@ class descriptionType(GeneratedsSuper):
         else:
             return False
     def build(self, node_):
+        self.nodeName = node_.nodeName
         attrs = node_.attributes
         self.buildAttributes(attrs)
         for child_ in node_.childNodes:

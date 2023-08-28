@@ -1962,6 +1962,9 @@ class SphinxRenderer:
         return self.render_optional(node.getValue())
 
     def visit_description(self, node) -> List[Node]:
+        if self.app.env.config.breathe_ignore_briefdescription:
+            if node.nodeName == 'briefdescription':
+                return []
         return self.render_iterable(node.content_)
 
     def visit_linkedtext(self, node) -> List[Node]:
